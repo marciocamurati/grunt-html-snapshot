@@ -51,13 +51,6 @@ sendMessage("private", "version", phantom.version);
 // Create a new page.
 var page = require("webpage").create();
 
-// Add options to page object
-if (options.pageOptions) {
-    Object.keys(options.pageOptions).forEach(function (key) {
-       page[key] = options.pageOptions[key];
-    });
-}
-
 // Relay console logging messages.
 page.onConsoleMessage = function (message) {
     sendMessage("console", message);
@@ -84,12 +77,12 @@ page.open(url, function (status) {
         //function returns true or a timeout is hit
         setTimeout(function(){
             var html = page.evaluate(function () {
-                return  JSON.stringify(document.all[0].outerHTML);
+                // return  JSON.stringify(document.all[0].outerHTML);
+                return document.all[0].outerHTML;
             });
-            sendMessage("htmlSnapshot.pageReady", sanitizeHtml(html,options), url);
+            sendMessage("htmlSnapshot.pageReady", html, url);
 
             phantom.exit();
         }, options.msWaitForPages);
     }
 });
-
