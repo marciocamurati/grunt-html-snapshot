@@ -25,14 +25,13 @@ module.exports = function(grunt) {
           sanitize: function(requestUri) {
             return requestUri.replace(/#|\/|\!/g, '_');
           },
+          fileNameExtension: '.html',
           snapshotPath: '',
           sitePath: '',
           removeScripts: false,
           removeLinkTags: false,
           removeMetaTags: false,
-          replaceStrings: [],
-          haltOnError: true,
-          pageOptions: {}
+          replaceStrings: []
         });
 
         // the channel prefix for this async grunt task
@@ -45,12 +44,8 @@ module.exports = function(grunt) {
         };
 
         phantom.on(taskChannelPrefix + ".error.onError", function (msg, trace) {
-            if (options.haltOnError) {
-                phantom.halt();
-                grunt.warn('error: ' + msg, 6);
-            } else {
-                grunt.log.writeln(msg);
-            }
+            phantom.halt();
+            grunt.warn('error: ' + msg, 6);
         });
 
         phantom.on(taskChannelPrefix + ".console", function (msg, trace) {
@@ -63,7 +58,7 @@ module.exports = function(grunt) {
             var fileName =  options.snapshotPath +
                             options.fileNamePrefix +
                             sanitizeFilename(plainUrl) +
-                            '.html';
+                            options.fileNameExtension;
 
             if (options.removeScripts){
                 msg = msg.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
@@ -105,8 +100,7 @@ module.exports = function(grunt) {
                     msWaitForPages: options.msWaitForPages,
                     bodyAttr: options.bodyAttr,
                     cookies: options.cookies,
-                    taskChannelPrefix: taskChannelPrefix,
-                    pageOptions: options.pageOptions
+                    taskChannelPrefix: taskChannelPrefix
                 },
                 // Complete the task when done.
                 done: function (err) {
