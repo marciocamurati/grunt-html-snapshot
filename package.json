@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cburgdorf/grunt-html-snapshot.git"
+    "url": "https://github.com/marciocamurati/grunt-html-snapshot.git"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/cburgdorf/grunt-html-snapshot/blob/master/LICENSE-MIT"
+      "url": "https://github.com/marciocamurati/grunt-html-snapshot/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {
